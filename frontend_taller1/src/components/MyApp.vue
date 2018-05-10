@@ -21,7 +21,6 @@
           value="true"
           v-for="(item, i) in items"
           :key="item.title"
-          @click=""
         >
           <v-list-tile-content>
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
