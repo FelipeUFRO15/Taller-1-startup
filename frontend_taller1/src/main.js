@@ -5,8 +5,11 @@ import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.min.css'
+import InterceptorApi from '@/services/Interceptor.service'
 
 Vue.use(Vuetify)
+
+Vue.http.interceptors.push(InterceptorApi)
 
 Vue.config.productionTip = false
 

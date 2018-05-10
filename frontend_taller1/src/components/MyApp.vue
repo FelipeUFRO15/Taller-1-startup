@@ -12,9 +12,6 @@
       <v-toolbar color="light-blue lighten-2" flat>
         <v-list>
           <v-list-tile>
-            <v-list-tile-title class="title">
-              Menú
-            </v-list-tile-title>
           </v-list-tile>
         </v-list>
       </v-toolbar>
@@ -26,9 +23,6 @@
           :key="item.title"
           @click=""
         >
-          <v-list-tile-action>
-            <v-icon>{{ item.icon }}</v-icon>
-          </v-list-tile-action>
           <v-list-tile-content>
             <v-list-tile-title>{{ item.title }}</v-list-tile-title>
           </v-list-tile-content>
@@ -43,7 +37,7 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer" color="light-blue lighten-2"></v-toolbar-side-icon>
       <v-toolbar-title v-text="title"></v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn @click="" flat>Cerrar Sesión
+      <v-btn @click="logout" flat>Cerrar Sesión
         <v-icon dark right>exit_to_app</v-icon>
       </v-btn>
     </v-toolbar>
@@ -57,6 +51,8 @@
 </template>
 
 <script>
+import CredentialsService from '@/services/Credentials.service'
+
 export default {
   data () {
     return {
@@ -64,13 +60,20 @@ export default {
       drawer: true,
       fixed: false,
       items: [
-        { title: 'Acortar URL', icon: 'dashboard' },
-        { title: 'Lista URL', icon: 'question_answer' }
+        { title: 'URL Shortener' }
       ],
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'URL Shortener'
+      title: 'URL Shortener',
+      credenciales: new CredentialsService()
+    }
+  },
+  methods: {
+    logout () {
+      let vm = this
+      vm.credenciales.clearCredentials()
+      vm.$router.push('/login')
     }
   },
   name: 'App'
