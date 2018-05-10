@@ -13,4 +13,5 @@
 
 Route::get('/', function () {
     return view('welcome');
+    //redirect()->action('RedireccionController@abrir');
 });

@@ -18,7 +18,12 @@ class DireccionController extends Controller
     {
         try {
             $user = \JWTAuth::parseToken()->authenticate();
-            return Direccion::where('id_usuario', $user->id)->get();
+            $direcciones = Direccion::where('id_usuario', $user->id)->get();
+            foreach ($direcciones as $dir) {
+                $dir->short = 'http://localhost:8000/'.$dir->short;
+            }
+
+            return $direcciones;
         } catch (\Exception $e) {
             \Log::info("Error {$e->getCode()}, {$e->getLine()}, {$e->getMessage()}");
             return \Response::json('Error: $e', 500);
@@ -33,11 +38,11 @@ class DireccionController extends Controller
      */
     public function store(Request $request, AuthController $auth)
     {
-        $user = \JWTAuth::parseToken()->authenticate();
+        //$user = \JWTAuth::parseToken()->authenticate();
 
         $direc = new Direccion();
         $direc->url = $request->url;
-        $direc->short = $request->short;
+        $direc->short = substr(md5(time().$direc->url), 0, 5);
         $direc->id_usuario = $auth->getAuthenticatedUser()->usuario->id;
         logger($direc);
         $direc->save();
@@ -50,9 +55,20 @@ class DireccionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($short)
     {
-        return Direccion::find($id);
+        $url = '';
+        $user = \JWTAuth::parseToken()->authenticate();
+        $direcciones = Direccion::where('id_usuario', $user->id)->get();
+
+        foreach ($direcciones as $dir) {
+            if ($dir->short == $short) {
+                $url = $dir->url;
+                break;
+            }
+        }
+
+        return redirect($url);
     }
 
     /**
