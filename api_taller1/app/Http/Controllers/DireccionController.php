@@ -38,13 +38,11 @@ class DireccionController extends Controller
      */
     public function store(Request $request, AuthController $auth)
     {
-        //$user = \JWTAuth::parseToken()->authenticate();
-
+        $user = \JWTAuth::parseToken()->authenticate();
         $direc = new Direccion();
         $direc->url = $request->url;
         $direc->short = substr(md5(time().$direc->url), 0, 5);
-        $direc->id_usuario = $auth->getAuthenticatedUser()->usuario->id;
-        logger($direc);
+        $direc->id_usuario = $user->id;
         $direc->save();
         return ['created' => true];
     }
