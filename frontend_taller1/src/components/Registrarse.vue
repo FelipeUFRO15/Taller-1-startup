@@ -9,9 +9,9 @@
               <br><br>
               <v-layout>
                 <v-flex xs8 offset-xs2 md6 offset-md3 class="text-xs-center">
-                  <h1 style="color: #039BE5;">URL Shortener</h1>
+                  <h1 style="color: #039BE5;">Registro</h1>
                   <br>
-                  <h3 style="color: #00B0FF;">Bienvenido/a </h3>
+                  <h3 style="color: #00B0FF;"></h3>
                 </v-flex>
               </v-layout>
               <br><br>
@@ -19,23 +19,27 @@
                 <v-flex xs8 offset-xs2>
                   <v-form>
                     <v-text-field
+                      label="Nombre"
+                      v-model="user.name"
+                      color="light-blue darken-1"
+                      required
+                    ></v-text-field>
+                    <v-text-field
                       label="Correo Electronico"
                       type="email"
-                      v-model="credentials.email"
+                      v-model="user.email"
                       color="light-blue darken-1"
                       required
                     ></v-text-field>
                     <v-text-field
                       label="Contraseña"
                       type="password"
-                      v-model="credentials.password"
+                      v-model="user.password"
                       color="light-blue darken-1"
                       required
                     ></v-text-field><br><br>
-                    <small v-if="errorLogin" class="red--text">Email o Password Incorrectos</small>
-                    <v-btn :loading="isLoading" @click="submit(credentials)" :disabled="!isValidForm" block style="border-radius: 7px;" color="light-blue darken-1 white--text">Iniciar Sesion</v-btn>
-                    <br><br>
-                    <v-btn flat small color="primary" @click="registro()">Registrarse</v-btn>
+                    <v-btn @click="registrar(user)" block style="border-radius: 7px;" color="light-blue darken-1 white--text">Registrarse</v-btn>
+                    
                   </v-form>
                 </v-flex>
               </v-layout>
@@ -48,43 +52,27 @@
 </template>
 
 <script>
-import {loginService} from '@/services/Login.service'
-import CredentialsService from '@/services/Credentials.service.js'
+import {userService} from '@/services/User.service'
 
 export default {
   data () {
     return {
-      isLoading: false,
-      credentials: {
-        usuario: '',
-        password: ''
-      },
-      errorLogin: false,
-      credentialService: new CredentialsService()
+      user: {},
+      rules: [
+        v => !!v || 'Campo Requerido'
+      ]
     }
   },
   methods: {
-    submit (credentials) {
+    registrar (user) {
       let vm = this
-      vm.isLoading = true
-      loginService.save(credentials).then(data => {
-        vm.credentialService.setToken(data.body.token)
+      userService.save(user).then(data => {
+        console.log(data)
         vm.$router.push('/')
-      }, () => {
-        vm.errorLogin = true
-        vm.isLoading = false
-        alert('credenciales erroneas')
+      }, err => {
+        alert('error')
+        console.log(err)
       })
-    },
-    registro () {
-      let vm = this
-      vm.$router.push('/registro')
-    }
-  },
-  computed: {
-    isValidForm () {
-      let vm = this
-      return vm.credentials.email !== '' && this.credentials.password !== ''
     }
   }
 }

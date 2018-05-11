@@ -12,26 +12,29 @@
     </v-layout>
     <v-layout row wrap>
       <v-flex xs12 md6>
-        <v-card dark color="light-blue lighten-4" v-for="direccion in direcciones" :key="direccion.id">
+        <v-card light color="light-blue lighten-4" v-for="direccion in direcciones" :key="direccion.id">
           <v-card-title primary-title>
             <div>
-              <h3 class="headline mb-0">{{ direccion.url }}</h3>
-              <div>{{ direccion.short }}</div>
+              <h3 style="color: orange;">URL original: {{ direccion.url }}</h3>
+              <h3 style="color: green;">URL acortada: {{ direccion.short }}</h3>
             </div>
           </v-card-title>
         </v-card>
       </v-flex>
     </v-layout>
+    <direccion-form @nuevaDireccion="nuevaDireccion" @closeDialog="dialog = false" :dialog="dialog"></direccion-form>
   </v-container>
 </template>
 
 <script>
 import {direccionService} from '@/services/Direccion.service'
+import DireccionForm from '@/components/DireccionForm'
 
 export default {
   data () {
     return {
-      direcciones: []
+      direcciones: [],
+      dialog: false
     }
   },
   mounted () {
@@ -42,6 +45,14 @@ export default {
     }, erro => {
       console.log('error')
     })
-  }
+  },
+  methods: {
+    nuevaDireccion (direccion) {
+      let vm = this
+      vm.direcciones.push(direccion)
+      vm.dialog = true
+    }
+  },
+  components: {DireccionForm}
 }
 </script>
