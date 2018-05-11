@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
     return $request->user();
 });*/
 
-Route::get('/short/{short}', 'RedireccionController@abrir');
+//Route::get('/short/{short}', 'RedireccionController@abrir');
 
 Route::group(['middleware' => ['jwt.auth']], function () {
 	Route::resource('direcciones', 'DireccionController');
