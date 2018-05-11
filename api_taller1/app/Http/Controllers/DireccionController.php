@@ -44,7 +44,7 @@ class DireccionController extends Controller
         $direc->short = substr(md5(time().$direc->url), 0, 5);
         $direc->id_usuario = $user->id;
         $direc->save();
-        return ['created' => true, 'short' => 'http://localhost:8000/api/short/'. $direc->short];
+        return ['created' => true, 'short' => 'http://localhost:8000/'. $direc->short];
     }
 
     /**

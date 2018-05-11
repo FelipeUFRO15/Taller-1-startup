@@ -13,12 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
-
-//Route::get('/short/{short}', 'RedireccionController@abrir');
-
 Route::group(['middleware' => ['jwt.auth']], function () {
 	Route::resource('direcciones', 'DireccionController');
 

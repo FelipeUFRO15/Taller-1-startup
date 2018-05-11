@@ -12,7 +12,3 @@
 */
 
 Route::get('/{short}', 'RedireccionController@abrir');
-
-/*Route::get('/{short}', function () {
-    redirect()->action('RedireccionController@abrir');
-});**/
