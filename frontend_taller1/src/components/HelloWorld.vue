@@ -16,7 +16,7 @@
           <v-card-title primary-title>
             <div>
               <h3 style="color: orange;">URL original: {{ direccion.url }}</h3>
-              <h3 style="color: green;">URL acortada: {{ direccion.short }}</h3>
+              <a :href="direccion.short" style="color: green;" target="_blank">URL acortada: {{ direccion.short }}</a>
             </div>
           </v-card-title>
         </v-card>
