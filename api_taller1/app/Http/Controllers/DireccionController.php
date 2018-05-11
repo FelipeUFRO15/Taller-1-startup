@@ -20,7 +20,7 @@ class DireccionController extends Controller
             $user = \JWTAuth::parseToken()->authenticate();
             $direcciones = Direccion::where('id_usuario', $user->id)->get();
             foreach ($direcciones as $dir) {
-                $dir->short = 'http://localhost:8000/api/short/'.$dir->short;
+                $dir->short = 'http://localhost:8000/'.$dir->short;
             }
 
             return $direcciones;
